@@ -1,7 +1,7 @@
 # WHRSDF
 % Demo of "Active contour driven by weighted hybrid region-based signed 
 
-%  pressure force"(WHRSPF) submitting to Knowledge-Based Systems
+%  pressure force"(WHRSPF) submitting to IEEE Access
 
 % Jiangxiong Fang
 
