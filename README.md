@@ -10,3 +10,6 @@
 % 8th, May, 2019
 
 % Email: fangchj2002@163.com
+if you use the code, please cite the following paper.
+Jiangxiong Fang, Huaxiang Liu,Liting Zhang,Jun Liu,Hesheng Liu. Active Contour Driven by Weighted Hybrid Signed
+Pressure Force for Image Segmentation, IEEE Access, 2019, 7:97492 - 97504.
