@@ -9,16 +9,17 @@
 
 clc;clear all;close all;
 
+%addpath 'D:\resFiles\Compared ACMs\image_Database\results'
 addpath 'image'
 
-index =5;
+index =3;
 
 switch index
     case 1
-        Img = imread('1.bmp');
-        stat = 10;
+        Img =imread('8.bmp');
+        stat = 30;
         sigma = 1.5;
-        rad = 5;
+        rad = 10;
     case 2
         Img = imread('2.pgm');
         stat = 30;
@@ -26,12 +27,12 @@ switch index
         rad = 5;
     case 3
         Img = imread('3.pgm');
-        stat = 60;
-        sigma = 1.5;
+        stat = 55;
+        sigma = 1.2;
         rad = 5;
     case 4
         Img = imread('4.pgm');
-        stat = 10;
+        stat = 5;
         sigma = 1.5;
         rad = 5;
     case 5
@@ -62,14 +63,15 @@ figure, subplot(2,2,1);imshow(Img);hold on;
 [c, h] = contour(u, [0 0], 'r','LineWidth',2);
 title('Initial contour');
 hold off;
+Img_a=Img;
 Img = double(Img);
-
+tic;
 G = fspecial('gaussian',rad, sigma);
 
 Iter = 100;
 % the weights of weighted global and local region-based SPF
-wg = 0.5;
-wl = 0.5;
+wg = 1;
+wl = 0.1;
 subplot(2,2,2);
 for n = 1:Iter
     [ux, uy] = gradient(u);
@@ -115,17 +117,16 @@ for n = 1:Iter
     else 
         lrspf=lrspf/lmax*gmax;
     end
-    hrspf = wg.*grspf+wl.*lrspf;
-    
+    hrspf = wg.*grspf+wl.*lrspf;    
    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Computing the level set function (LSF)    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    u = u + abs(c1+m1-2*c2)*grspf.*mu;
+    u = u + abs(c1+m1-2*c2)*hrspf.*mu;
     
     if mod(n,10)==0
-    imagesc(Img,[0 255]); colormap(gray);hold on;
+    imshow(Img_a); hold on;
     [c, h] = contour(u, [0 0], 'r');
     iterNum = [num2str(n), 'iterations'];
     title(iterNum);
@@ -137,6 +138,9 @@ for n = 1:Iter
     u = objPos - objNeg;
     u = conv2(u, G, 'same');
 end
-imagesc(Img,[0 255]);colormap(gray);hold on;
+imshow(Img_a);hold on;
 [c, h] = contour(u, [0 0], 'r','LineWidth',2);
-
+subplot(2,2,3);
+toc
+seg = u>0;
+imshow(seg);
